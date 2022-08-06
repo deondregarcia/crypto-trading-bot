@@ -1,5 +1,6 @@
-import websocket, json, pprint, talib, numpy
+import websocket, json, pprint, numpy
 from binance.client import Client
+from indicators import *
 import config, strategies
 
 client = Client(config.api_key, config.api_secret, tld="us")
@@ -41,14 +42,16 @@ coin_list = [
 
 interval = "1m"
 
-# not /ws/ because / added in below loop
-stream = "/ws"
-for coin in coin_list:
-    stream += "/" + coin + "@kline_" + interval
+# # not /ws/ because / added in below loop
+# stream = "/ws"
+# for coin in coin_list:
+#     stream += "/" + coin + "@kline_" + interval
 
-# stream = "/ws/" + stream + "@kline_" + interval
+# socket = "wss://stream.binance.us:9443" + stream
+
+coin = "btcusd"
+stream = "/ws/" + coin + "@kline_" + interval
 socket = "wss://stream.binance.us:9443" + stream
-# socket = "wss://stream.binance.com:9443" + stream
 
 print(socket)
 
@@ -65,6 +68,9 @@ def on_close(ws, close_status_code, close_msg):
     print("Closed connection")
 
 
+close_array = []
+
+
 def on_message(ws, message):
     json_message = json.loads(message)
     # pprint.pprint(json_message)
@@ -75,12 +81,16 @@ def on_message(ws, message):
     candle_interval = candle_info["i"]
     candle_close = candle_info["c"]
 
-    if is_candle_closed:
-        print(
-            "{} {} candle closed at {}".format(
-                candle_symbol, candle_interval, candle_close
-            )
-        )
+    print(close_array)
+    close_array.append(float(candle_close))
+    if len(close_array) >= 3:
+        print(exponential_moving_average(close_array, 3))
+    # if is_candle_closed:
+    #     print(
+    #         "{} {} candle closed at {}".format(
+    #             candle_symbol, candle_interval, candle_close
+    #         )
+    #     )
 
 
 ws = websocket.WebSocketApp(
