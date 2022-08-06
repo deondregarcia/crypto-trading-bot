@@ -49,7 +49,7 @@ interval = "1m"
 
 # socket = "wss://stream.binance.us:9443" + stream
 
-coin = "dogeusd"
+coin = "btcusd"
 stream = "/ws/" + coin + "@kline_" + interval
 socket = "wss://stream.binance.us:9443" + stream
 
@@ -84,7 +84,7 @@ def on_message(ws, message):
     print(close_array)
     close_array.append(float(candle_close))
     if len(close_array) >= 3:
-        print(simple_moving_average(close_array, 3))
+        print(exponential_moving_average(close_array, 3))
     # if is_candle_closed:
     #     print(
     #         "{} {} candle closed at {}".format(
