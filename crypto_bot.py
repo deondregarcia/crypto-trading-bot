@@ -6,6 +6,8 @@ import config, strategies
 
 client = Client(config.api_key, config.api_secret, tld="us")
 
+# ----------------------- look into using pandas per this link: https://www.alpharithms.com/calculate-macd-python-272222/ --------------------------
+
 # list of 10 coins to keep track of
 # bitcoin, ethereum, doge coin, BNB (binance coin), cardano (ADA), polygon (MATIC), BarnBridge (BOND), AVALANCHE AVAX, ApeCoin (APE), Chainlink (LINK)
 # 4

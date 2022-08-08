@@ -77,7 +77,21 @@ def MACD(array, fast_periods, slow_periods, macd_periods):
     slow_ema = exponential_moving_average(array, slow_periods)
     macd = fast_ema - slow_ema
 
-    signal_line = simple_moving_average(array, macd_periods)
+    def MACD_loop(arr, fast_p, slow_p):
+        """MACD called several times to find signal line, prevents too many function calls"""
+        f_ema = exponential_moving_average(arr, fast_p)
+        s_ema = exponential_moving_average(arr, slow_p)
+        return f_ema - s_ema
+
+    macd_array = [macd]
+    for i in range(1, macd_periods):
+        macd_array.append(
+            MACD_loop(array[: -(1 * i)], fast_periods, slow_periods)
+        )  # array[:-(1 * i)] consecutively returns array after slicing off last element
+
+    print(macd_array)
+
+    signal_line = exponential_moving_average(macd_array, macd_periods)
 
     print(fast_ema, slow_ema)
     return [macd, signal_line]
@@ -85,4 +99,4 @@ def MACD(array, fast_periods, slow_periods, macd_periods):
 
 # print(exponential_moving_average(testing_array, 3))
 # print(simple_moving_average(testing_array, 3))
-print(MACD(testing_array, 12, 26, 9)[1])
+print(MACD(testing_array, 12, 26, 9))
