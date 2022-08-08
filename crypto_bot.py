@@ -1,5 +1,6 @@
 import websocket, json, pprint, numpy
 from binance.client import Client
+from binance.enums import *
 from indicators import *
 import config, strategies
 
@@ -8,6 +9,11 @@ client = Client(config.api_key, config.api_secret, tld="us")
 # list of 10 coins to keep track of
 # bitcoin, ethereum, doge coin, BNB (binance coin), cardano (ADA), polygon (MATIC), BarnBridge (BOND), AVALANCHE AVAX, ApeCoin (APE), Chainlink (LINK)
 # 4
+
+# Overall tentative plan, based on ideas below:
+#   - python cryptocurrency trading bot
+#   - web app that has charts, UI buttons to execute code for python cryptocurrency bot
+#   - database for storing past results, and corresponding chart to graph results. Visible to everyone.
 
 # ideas for the program:
 # ***   develop some algorithm to analyze past and current price action as a human would (watch videos, etc.)
@@ -49,7 +55,7 @@ interval = "1m"
 
 # socket = "wss://stream.binance.us:9443" + stream
 
-coin = "btcusd"
+coin = "dogeusd"
 stream = "/ws/" + coin + "@kline_" + interval
 socket = "wss://stream.binance.us:9443" + stream
 
@@ -58,6 +64,12 @@ print(socket)
 
 def on_open(ws):
     print("Opened connection")
+    # info = client.get_account()
+    # pprint.pprint(f"info: {info}")
+
+    # get minimum
+    info = client.get_symbol_info("DOGEUSD")
+    pprint.pprint(info)
 
 
 def on_error(ws, error):
@@ -80,6 +92,17 @@ def on_message(ws, message):
     candle_symbol = candle_info["s"]
     candle_interval = candle_info["i"]
     candle_close = candle_info["c"]
+
+    # test order worked; returns {}
+    order = client.create_test_order(
+        symbol="DOGEUSD",
+        side=SIDE_BUY,
+        type=ORDER_TYPE_LIMIT,
+        timeInForce=TIME_IN_FORCE_GTC,
+        quantity=200,
+        price="0.071",
+    )
+    print(order)
 
     print(close_array)
     close_array.append(float(candle_close))

@@ -2,7 +2,53 @@
 import numpy as np
 
 # testing_array = [23, 42, 76, 2, 11]
-testing_array = [10, 11, 14, 16, 12]
+testing_array = [
+    10,
+    11,
+    14,
+    16,
+    12,
+    23,
+    42,
+    76,
+    2,
+    11,
+    23,
+    46,
+    43,
+    76,
+    23,
+    78,
+    54,
+    76,
+    32,
+    45,
+    67,
+    32,
+    67,
+    13,
+    9,
+    12,
+    6,
+    12,
+    56,
+    78,
+    45,
+    98,
+    47,
+    32,
+    67,
+    13,
+    9,
+    12,
+    6,
+    12,
+    56,
+    78,
+    45,
+    98,
+    47,
+]
 
 
 def simple_moving_average(array, periods):
@@ -25,5 +71,18 @@ def exponential_moving_average(array, periods):
         )
 
 
-print(exponential_moving_average(testing_array, 3))
-print(simple_moving_average(testing_array, 3))
+def MACD(array, fast_periods, slow_periods, macd_periods):
+    """Example Usage: MACD([array], 12, 26, 9)"""
+    fast_ema = exponential_moving_average(array, fast_periods)
+    slow_ema = exponential_moving_average(array, slow_periods)
+    macd = fast_ema - slow_ema
+
+    signal_line = simple_moving_average(array, macd_periods)
+
+    print(fast_ema, slow_ema)
+    return [macd, signal_line]
+
+
+# print(exponential_moving_average(testing_array, 3))
+# print(simple_moving_average(testing_array, 3))
+print(MACD(testing_array, 12, 26, 9)[1])
