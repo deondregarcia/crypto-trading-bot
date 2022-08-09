@@ -96,20 +96,19 @@ def on_message(ws, message):
     candle_close = candle_info["c"]
 
     # test order worked; returns {}
-    order = client.create_test_order(
-        symbol="DOGEUSD",
-        side=SIDE_BUY,
-        type=ORDER_TYPE_LIMIT,
-        timeInForce=TIME_IN_FORCE_GTC,
-        quantity=200,
-        price="0.071",
-    )
-    print(order)
+    # order = client.create_test_order(
+    #     symbol="DOGEUSD",
+    #     side=SIDE_BUY,
+    #     type=ORDER_TYPE_LIMIT,
+    #     timeInForce=TIME_IN_FORCE_GTC,
+    #     quantity=200,
+    #     price="0.071",
+    # )
+    # print(order)
 
     print(close_array)
     close_array.append(float(candle_close))
-    if len(close_array) >= 3:
-        print(exponential_moving_average(close_array, 3))
+    print(MACD(close_array, 12, 26, 9))
     # if is_candle_closed:
     #     print(
     #         "{} {} candle closed at {}".format(
