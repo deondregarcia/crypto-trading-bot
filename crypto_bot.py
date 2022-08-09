@@ -106,7 +106,7 @@ def on_message(ws, message):
     # )
     # print(order)
 
-    print(close_array)
+    print(f"close_array: {close_array}")
     close_array.append(float(candle_close))
     print(MACD(close_array, 12, 26, 9))
     # if is_candle_closed:

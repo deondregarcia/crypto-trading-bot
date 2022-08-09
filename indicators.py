@@ -71,15 +71,12 @@ def exponential_moving_average(array, periods):
         new_array = array[:-1]
         print(f"new_array: {new_array}")
         # recursive formula
-        one = price_today * wm
-        two = exponential_moving_average(new_array, periods) * (1 - wm)
-
-        print(f"one: {one}, two: {two}")
-        answer = one + two
-        print(f"ema: {answer} ")
-        return answer
+        return price_today * wm + exponential_moving_average(new_array, periods) * (
+            1 - wm
+        )
 
 
+# ---------------------NEED TO FIX: returning values that are too low for dogeusd stream, correct this--------------------------------------
 def MACD(array, fast_periods, slow_periods, macd_periods):
     """Example Usage: MACD([array], 12, 26, 9)"""
     if len(array) < 35:
@@ -100,12 +97,31 @@ def MACD(array, fast_periods, slow_periods, macd_periods):
                 MACD_loop(array[: -(1 * i)], fast_periods, slow_periods)
             )  # array[:-(1 * i)] consecutively returns array after slicing off last element
 
-        print(macd_array)
+        print(f"macd_array: {macd_array}")
 
         signal_line = exponential_moving_average(macd_array, macd_periods)
         return [macd, signal_line]
 
 
+def bollinger_bands(array, periods):
+    """
+    returns inner sma line and outer std. dev. bands
+    typically used with a 20 day SMA
+    """
+    sma = simple_moving_average(array, periods)
+    std_dev = np.std(array)
+    upper_band = sma + (std_dev * 2)
+    lower_band = sma - (std_dev * 2)
+
+    return [upper_band, sma, lower_band]
+
+
+def relative_strength_index(array, periods):
+    """standard # of periods is 14"""
+    # avg_gain =
+
+
 # print(exponential_moving_average(testing_array, 12))
 # print(simple_moving_average(testing_array, 3))
-print(MACD(testing_array, 12, 26, 9))
+# print(MACD(testing_array, 12, 26, 9))
+print(bollinger_bands(testing_array, 20))
