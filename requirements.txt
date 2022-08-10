@@ -1,3 +1,0 @@
-python-binance
-numpy
-websocket-client
