@@ -10,7 +10,7 @@ api_url = "https://api.binance.us"
 
 # Goals for tomorrow, Aug 14:
 #   - write func to check account balance --DONE
-#   - test out the RSI and bollinger band indicators, eth since its array has a start time
+#   - test out the RSI and bollinger band indicators, eth since its array has a start time --DONE
 #   - create my first strategy combining the MACD, RSI, and BB's to generate signals. Include percentage stop losses and trailing stop losses in the order.
 #   - figure out a way to backtest the strategy (by downloading Binance API historical zip files or finding a way to do it through API, which is preferred)
 #   - backtest that strategy
