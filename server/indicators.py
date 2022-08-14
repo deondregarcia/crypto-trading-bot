@@ -1,5 +1,5 @@
 # All the technical indicators to be used in the strategies.py file
-from tracemalloc import start
+# from tracemalloc import start --removed this, see if it pops up again automatically
 import numpy as np
 import pandas as pd
 from test_arrays import *
@@ -37,7 +37,6 @@ def smoothed_moving_average(array, periods):
     elif len(array) == periods:  # base case
         return np.mean(array)
     else:
-        print("ema test")
         wm = 1 / (periods)  # calc weighted multiplier
         price_today = array[-1]
         new_array = array[:-1]
@@ -76,12 +75,16 @@ def bollinger_bands(array, periods):
     returns inner sma line and outer std. dev. bands
     typically used with a 20 day SMA
     """
-    sma = simple_moving_average(array, periods)
-    std_dev = np.std(array)
-    upper_band = sma + (std_dev * 2)
-    lower_band = sma - (std_dev * 2)
+    if len(array) < periods:
+        print(f"Need {periods} for Bollinger Bands")
+        return
+    else:
+        sma = simple_moving_average(array, periods)
+        std_dev = np.std(array)
+        upper_band = sma + (std_dev * 2)
+        lower_band = sma - (std_dev * 2)
 
-    return [upper_band, sma, lower_band]
+        return [upper_band, sma, lower_band]
 
 
 def relative_strength_index(array, periods):
@@ -89,32 +92,33 @@ def relative_strength_index(array, periods):
     standard # of periods is 14, but fast/minute charts might not be good for RSI
     This RSI uses Wilder's SMMA for its smoothing alpha
     """
-    gains = []
-    losses = []
+    if len(array) < periods:
+        print(f"Need at least {periods} closes for RSI")
+        return
+    else:
+        gains = []
+        losses = []
 
-    # separate positive price changes from the negative ones for all price changes in array, then only calculate the 'periods' amount later
-    for i in range(0, len(array) - 1):
-        price_change = array[i + 1] - array[i]
-        print(f"array[i + 1]: {array[i + 1]}, array[i]: {array[i]}")
-        if price_change > 0:
-            gains.append(price_change)
-            losses.append(0)
-        else:
-            gains.append(0)
-            losses.append(abs(price_change))
+        # separate positive price changes from the negative ones for all price changes in array, then only calculate the 'periods' amount later
+        for i in range(0, len(array) - 1):
+            price_change = array[i + 1] - array[i]
+            if price_change > 0:
+                gains.append(price_change)
+                losses.append(0)
+            else:
+                gains.append(0)
+                losses.append(abs(price_change))
 
-    # calculate the SMMA only for the 'periods' amount
-    avg_gains = smoothed_moving_average(gains, periods)
-    avg_losses = smoothed_moving_average(losses, periods)
-    relative_strength = avg_gains / avg_losses
-    print(f"relative strength: {relative_strength}")
-    rsi = 100 - (100 / (1 + relative_strength))
-    print(f"rsi: {rsi}")
-    return rsi
+        # calculate the SMMA only for the 'periods' amount
+        avg_gains = smoothed_moving_average(gains, periods)
+        avg_losses = smoothed_moving_average(losses, periods)
+        relative_strength = avg_gains / avg_losses
+        rsi = 100 - (100 / (1 + relative_strength))
+        return rsi
 
 
 # print(simple_moving_average(testing_array, 3))
 # print(MACD(eth_array_2_from_binance, 12, 26, 9))
 # print(bollinger_bands(eth_array_2_from_binance, 21))
-relative_strength_index(eth_array_2_from_binance, 14)
+# relative_strength_index(eth_array_2_from_binance, 14)
 # print(exponential_moving_average(eth_array_2_from_binance, 12))

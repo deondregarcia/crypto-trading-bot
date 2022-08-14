@@ -1,7 +1,5 @@
 import websocket, json, pprint, numpy
 
-# from binance.client import Client
-# from binance.enums import *
 from indicators import *
 import config, strategies
 
@@ -16,8 +14,6 @@ api_url = "https://api.binance.us"
 #   - backtest that strategy
 #   - maybe find a way to log results, idk its kind of a longer process bc i need a database then.
 
-
-# client = Client(config.api_key, config.api_secret, tld="us")
 
 # ----------------------- look into using pandas per this link: https://www.alpharithms.com/calculate-macd-python-272222/ --------------------------
 
@@ -110,34 +106,17 @@ def on_message(ws, message):
     candle_interval = candle_info["i"]
     candle_close = candle_info["c"]
 
-    # test order worked; returns {}
-    # order = client.create_test_order(
-    #     symbol="DOGEUSD",
-    #     side=SIDE_BUY,
-    #     type=ORDER_TYPE_LIMIT,
-    #     timeInForce=TIME_IN_FORCE_GTC,
-    #     quantity=200,
-    #     price="0.071",
-    # )
-    # print(order)
-
-    print(f"close_array: {close_array}")
-    close_array.append(float(candle_close))
-    print(MACD(close_array, 12, 26, 9))
-    # if is_candle_closed:
-    #     print(
-    #         "{} {} candle closed at {}".format(
-    #             candle_symbol, candle_interval, candle_close
-    #         )
-    #     )
+    if is_candle_closed:
+        close_array.append(float(candle_close))
+        print(f"close_array: {close_array}")
+        print(f"MACD: {MACD(close_array, 12, 26, 9)}")
+        print(f"Bollinger Bands: {bollinger_bands(close_array, 20)}")
+        print(f"RSI: {relative_strength_index(close_array, 14)}")
 
 
 ws = websocket.WebSocketApp(
     socket, on_open=on_open, on_message=on_message, on_error=on_error, on_close=on_close
 )
-
-# ws.run_forever()
-# ws.close()
 
 
 def start_bot():
