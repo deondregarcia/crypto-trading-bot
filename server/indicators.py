@@ -1,5 +1,6 @@
 # All the technical indicators to be used in the strategies.py file
 import numpy as np
+import pandas as pd
 from test_arrays import *
 
 
@@ -23,7 +24,6 @@ def exponential_moving_average(array, periods):
         )
 
 
-# ---------------------NEED TO FIX: returning values that are too low for dogeusd stream, correct this--------------------------------------
 def MACD(array, fast_periods, slow_periods, macd_periods):
     """Example Usage: MACD([array], 12, 26, 9)"""
     if len(array) < 35:
@@ -87,12 +87,7 @@ def relative_strength_index(array, periods):
     return rsi
 
 
-# avg_gain =
-
-
-# print(exponential_moving_average(testing_array, 12))
 # print(simple_moving_average(testing_array, 3))
-# print(f"doge_array: {doge_array}")
-# print(MACD(doge_array, 12, 26, 9))
+print(MACD(eth_array, 12, 26, 9))
 # print(bollinger_bands(doge_array, 20))
-relative_strength_index(doge_array, 14)
+# relative_strength_index(doge_array, 14)

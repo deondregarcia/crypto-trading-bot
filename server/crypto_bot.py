@@ -7,6 +7,15 @@ import config, strategies
 
 api_url = "https://api.binance.us"
 
+
+# Goals for tomorrow, Aug 14:
+#   - test out the RSI and bollinger band indicators
+#   - create my first strategy combining the MACD, RSI, and BB's to generate signals. Include percentage stop losses and trailing stop losses in the order.
+#   - figure out a way to backtest the strategy (by downloading Binance API historical zip files or finding a way to do it through API, which is preferred)
+#   - backtest that strategy
+#   - maybe find a way to log results, idk its kind of a longer process bc i need a database then.
+
+
 # client = Client(config.api_key, config.api_secret, tld="us")
 
 # ----------------------- look into using pandas per this link: https://www.alpharithms.com/calculate-macd-python-272222/ --------------------------
@@ -18,7 +27,11 @@ api_url = "https://api.binance.us"
 # Overall tentative plan, based on ideas below:
 #   - python cryptocurrency trading bot
 #   - web app that has charts, UI buttons to execute code for python cryptocurrency bot
+#   - statistics on the overall performance of my bot and each strategy in particular
 #   - database for storing past results, and corresponding chart to graph results. Visible to everyone.
+
+# Strategy:
+#   - go a little overkill on some of the indicators; play for limited, safe transactions since I don't have to pay attention to the markets myself
 
 # ideas for the program:
 # ***   develop some algorithm to analyze past and current price action as a human would (watch videos, etc.)
@@ -53,13 +66,14 @@ coin_list = [
 
 interval = "1m"
 
+# ------ multiple streams ------
 # # not /ws/ because / added in below loop
 # stream = "/ws"
 # for coin in coin_list:
 #     stream += "/" + coin + "@kline_" + interval
-
 # socket = "wss://stream.binance.us:9443" + stream
 
+# single stream
 coin = "dogeusd"
 stream = "/ws/" + coin + "@kline_" + interval
 socket = "wss://stream.binance.us:9443" + stream
