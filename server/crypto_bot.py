@@ -1,10 +1,13 @@
 import websocket, json, pprint, numpy
-from binance.client import Client
-from binance.enums import *
+
+# from binance.client import Client
+# from binance.enums import *
 from indicators import *
 import config, strategies
 
-client = Client(config.api_key, config.api_secret, tld="us")
+api_url = "https://api.binance.us"
+
+# client = Client(config.api_key, config.api_secret, tld="us")
 
 # ----------------------- look into using pandas per this link: https://www.alpharithms.com/calculate-macd-python-272222/ --------------------------
 

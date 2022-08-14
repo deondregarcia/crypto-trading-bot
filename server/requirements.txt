@@ -1,5 +1,7 @@
-python-binance
+# python-binance
+requests
 numpy
 websocket-client
 Flask
 flask-cors
+pandas
