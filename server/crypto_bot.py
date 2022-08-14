@@ -9,7 +9,8 @@ api_url = "https://api.binance.us"
 
 
 # Goals for tomorrow, Aug 14:
-#   - test out the RSI and bollinger band indicators
+#   - write func to check account balance --DONE
+#   - test out the RSI and bollinger band indicators, eth since its array has a start time
 #   - create my first strategy combining the MACD, RSI, and BB's to generate signals. Include percentage stop losses and trailing stop losses in the order.
 #   - figure out a way to backtest the strategy (by downloading Binance API historical zip files or finding a way to do it through API, which is preferred)
 #   - backtest that strategy
@@ -32,6 +33,10 @@ api_url = "https://api.binance.us"
 
 # Strategy:
 #   - go a little overkill on some of the indicators; play for limited, safe transactions since I don't have to pay attention to the markets myself
+
+# Notes for Improvement:
+#   - for the EMA and SMMA, and therefore for the RSI, MACD, etc. which depend on them, the functions calculate ALL values in the array in order to reach base case,
+#   so the longer the bot runs, the longer the input arrays get, the slower the performance. Could increase this by caching the return values.
 
 # ideas for the program:
 # ***   develop some algorithm to analyze past and current price action as a human would (watch videos, etc.)

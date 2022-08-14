@@ -78,6 +78,27 @@ function App() {
       .catch((error) => console.log(error));
   };
 
+  const handleAccountInfo = () => {
+    fetch("http://127.0.0.1:5000/account", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        Accept: "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          alert("something is wrong");
+        }
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => console.log(error));
+  };
+
   return (
     <div>
       <h1>API Testing</h1>
@@ -87,6 +108,7 @@ function App() {
       </button>
       <button onClick={handleStart}>Start Trading Bot</button>
       <button onClick={handleStop}>Stop Trading Bot</button>
+      <button onClick={handleAccountInfo}>Get Account Info</button>
     </div>
   );
 }

@@ -76,3 +76,101 @@ eth_array = [
     2008.9500,
     2008.9500,
 ]
+
+# start time: 1660507019999 or Sunday, August 14, 2022 12:56:59.999 PM -- read as 12:56 on charts -- (corresponds to last digit in array)
+# 38 inputs
+# for this time, both Trading View and BinanceUS reported a 1.08/0.66 and 1.09/0.67 MACD/Signal Line and closes of 1934.61 (12:46 PM)
+# However, when I currently run my MACD func on it, I get 1.177/0.856 MACD/Signal Line calculations
+# Possible Sources of Error:
+#   1. Their close is different than what I've gathered, by 30 cents, meaning my preceding close values are most likely different as well, leading to errors in final calculations
+eth_array_2 = [
+    1931.43,
+    1930.56,
+    1931.44,
+    1931.51,
+    1931.17,
+    1930.63,
+    1930.31,
+    1929.68,
+    1929.0,
+    1928.59,
+    1927.31,
+    1928.81,
+    1929.0,
+    1930.45,
+    1930.45,
+    1928.23,
+    1929.92,
+    1929.21,
+    1929.48,
+    1931.16,
+    1929.69,
+    1930.51,
+    1929.96,
+    1929.36,
+    1930.83,
+    1930.77,
+    1931.78,
+    1933.1,
+    1932.01,
+    1931.9,
+    1934.19,
+    1934.52,
+    1933.77,
+    1934.31,
+    1934.31,
+    1934.31,
+]
+
+# ---- Related to above eth_array_2 ----
+# Output from my MACD calculations:
+# macd_array: [1.1172527264654946, 1.0345092759448562, 0.944396591448367, 0.8706251782700747, 0.6874387537657185, 0.47722715370719015, 0.4351428619424951, 0.3638986515522902, 0.15669024263206666]
+# ['macd: 1.1172527264654946', 'signal line: 0.6763534928587281']
+
+# ---- Analysis ----
+#   - my 'latest' macd is off and above target by about 0.03 - 0.04 if rounded, while my signal line appears to be off and above by 0.01 if rounded
+#   - following my macd_array, the margin of error remains around 0.03 - 0.04 for 5 more inputs, and only slowly increases to 0.05, then 0.06 when compared to Trading Views and BinanceUS' values (read off charts, not documented here)
+
+#   - OVERALL CONCLUSION: Most of the error for my calculations for the above eth_array (pulled from BinanceUS API, a different source than TradingView/BinanceUS Charts)
+#   seem to be sourced from inaccurate closing inputs, so not my calculations but the BinanceUS API itself.
+#   - Either the BinanceUS API is inaccurate by design for logistical reasons on their end, or I am pulling/reading the data incorrectly (but then again I am using the timestamp of the latest value)
+eth_array_2_from_binance = [
+    1932.4,
+    1929.94,
+    1929.18,
+    1931.43,
+    1930.56,
+    1931.44,
+    1931.51,
+    1931.17,
+    1930.63,
+    1930.31,
+    1929.68,
+    1929,
+    1928.59,
+    1927.31,
+    1928.81,
+    1929,
+    1930.45,
+    1930.45,
+    1928.23,
+    1929.92,
+    1929.21,
+    1929.48,
+    1931.16,
+    1929.69,
+    1930.51,
+    1929.96,
+    1929.36,
+    1930.83,
+    1930.77,
+    1931.78,
+    1933.1,
+    1932.01,
+    1931.9,
+    1934.19,
+    1934.52,
+    1933.77,
+    1934.31,
+    1934.61,
+]

@@ -1,4 +1,5 @@
 # All the technical indicators to be used in the strategies.py file
+from tracemalloc import start
 import numpy as np
 import pandas as pd
 from test_arrays import *
@@ -11,10 +12,14 @@ def simple_moving_average(array, periods):
 
 
 def exponential_moving_average(array, periods):
-    """simple moving average with more weight on recent data"""
-    if len(array) == periods:  # base case
+    """moving average with more weight on recent data"""
+    if len(array) < periods:
+        print("Must have periods + 1 number of inputs for EMA")
+        return
+    elif len(array) == periods:  # base case
         return np.mean(array)
     else:
+        print("ema test")
         wm = 2 / (periods + 1)  # calc weighted multiplier
         price_today = array[-1]
         new_array = array[:-1]
@@ -22,6 +27,22 @@ def exponential_moving_average(array, periods):
         return price_today * wm + exponential_moving_average(new_array, periods) * (
             1 - wm
         )
+
+
+def smoothed_moving_average(array, periods):
+    """similar to EMA with different weighted multiplier; moving average with alpha = 1/N smoothing"""
+    if len(array) < periods:
+        print("Must have periods + 1 number of inputs for EMA")
+        return
+    elif len(array) == periods:  # base case
+        return np.mean(array)
+    else:
+        print("ema test")
+        wm = 1 / (periods)  # calc weighted multiplier
+        price_today = array[-1]
+        new_array = array[:-1]
+        # recursive formula
+        return price_today * wm + smoothed_moving_average(new_array, periods) * (1 - wm)
 
 
 def MACD(array, fast_periods, slow_periods, macd_periods):
@@ -47,7 +68,7 @@ def MACD(array, fast_periods, slow_periods, macd_periods):
         print(f"macd_array: {macd_array}")
 
         signal_line = exponential_moving_average(macd_array, macd_periods)
-        return [macd, signal_line]
+        return [f"macd: {macd}", f"signal line: {signal_line}"]
 
 
 def bollinger_bands(array, periods):
@@ -66,28 +87,34 @@ def bollinger_bands(array, periods):
 def relative_strength_index(array, periods):
     """
     standard # of periods is 14, but fast/minute charts might not be good for RSI
+    This RSI uses Wilder's SMMA for its smoothing alpha
     """
     gains = []
     losses = []
-    start_index = len(array) - periods  # only look back at a certain amount of values
 
-    # separate positie price changes from the negative ones
-    for i in range(start_index, len(array) - 1):
+    # separate positive price changes from the negative ones for all price changes in array, then only calculate the 'periods' amount later
+    for i in range(0, len(array) - 1):
         price_change = array[i + 1] - array[i]
+        print(f"array[i + 1]: {array[i + 1]}, array[i]: {array[i]}")
         if price_change > 0:
             gains.append(price_change)
+            losses.append(0)
         else:
-            losses.append(price_change)
+            gains.append(0)
+            losses.append(abs(price_change))
 
-    avg_gains = np.mean(gains)
-    avg_losses = np.mean(losses)
+    # calculate the SMMA only for the 'periods' amount
+    avg_gains = smoothed_moving_average(gains, periods)
+    avg_losses = smoothed_moving_average(losses, periods)
     relative_strength = avg_gains / avg_losses
-    rsi = 100 - (100 / (1 - relative_strength))
-    print(rsi)
+    print(f"relative strength: {relative_strength}")
+    rsi = 100 - (100 / (1 + relative_strength))
+    print(f"rsi: {rsi}")
     return rsi
 
 
 # print(simple_moving_average(testing_array, 3))
-print(MACD(eth_array, 12, 26, 9))
-# print(bollinger_bands(doge_array, 20))
-# relative_strength_index(doge_array, 14)
+# print(MACD(eth_array_2_from_binance, 12, 26, 9))
+# print(bollinger_bands(eth_array_2_from_binance, 21))
+relative_strength_index(eth_array_2_from_binance, 14)
+# print(exponential_moving_average(eth_array_2_from_binance, 12))

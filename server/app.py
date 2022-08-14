@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from crypto_bot import start_bot, stop_bot
+from commands import *
 import sys
 
 app = Flask(__name__)
@@ -29,6 +30,12 @@ def end_bot():
     # closed = jsonify({"response": "Stopped Trading Bot"})
     closed = jsonify("Stopped Trading Bot")
     return closed
+
+
+@app.route("/account", methods=["POST"])
+def account_info():
+    result = get_account_info()
+    return result
 
 
 # Run the app:
