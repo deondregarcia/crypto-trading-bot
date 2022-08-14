@@ -66,12 +66,6 @@ print(socket)
 
 def on_open(ws):
     print("Opened connection")
-    # info = client.get_account()
-    # pprint.pprint(f"info: {info}")
-
-    # get minimum
-    info = client.get_symbol_info("DOGEUSD")
-    pprint.pprint(info)
 
 
 def on_error(ws, error):
@@ -87,7 +81,6 @@ close_array = []
 
 def on_message(ws, message):
     json_message = json.loads(message)
-    # pprint.pprint(json_message)
     candle_info = json_message["k"]
 
     is_candle_closed = candle_info["x"]
@@ -120,4 +113,14 @@ def on_message(ws, message):
 ws = websocket.WebSocketApp(
     socket, on_open=on_open, on_message=on_message, on_error=on_error, on_close=on_close
 )
-ws.run_forever()
+
+# ws.run_forever()
+# ws.close()
+
+
+def start_bot():
+    ws.run_forever()
+
+
+def stop_bot():
+    ws.close()
