@@ -21,9 +21,12 @@ api_url = "https://api.binance.us"
 # bitcoin, ethereum, doge coin, BNB (binance coin), cardano (ADA), polygon (MATIC), BarnBridge (BOND), AVALANCHE AVAX, ApeCoin (APE), Chainlink (LINK)
 # 4
 
+# Create Crypto class in strategies file to track different cryptocurrencies
+
 # Overall tentative plan, based on ideas below:
 #   - python cryptocurrency trading bot
 #   - web app that has charts, UI buttons to execute code for python cryptocurrency bot
+#       - Pages: Main screen, Paper Trading, Statistics (pulls from database)
 #   - statistics on the overall performance of my bot and each strategy in particular
 #   - database for storing past results, and corresponding chart to graph results. Visible to everyone.
 
@@ -33,6 +36,7 @@ api_url = "https://api.binance.us"
 # Notes for Improvement:
 #   - for the EMA and SMMA, and therefore for the RSI, MACD, etc. which depend on them, the functions calculate ALL values in the array in order to reach base case,
 #   so the longer the bot runs, the longer the input arrays get, the slower the performance. Could increase this by caching the return values.
+#   - later on, calculate velocity and magnitude of MACD crossover and other indicators/price action for better insights
 
 # ideas for the program:
 # ***   develop some algorithm to analyze past and current price action as a human would (watch videos, etc.)
@@ -75,7 +79,8 @@ interval = "1m"
 # socket = "wss://stream.binance.us:9443" + stream
 
 # single stream
-coin = "dogeusd"
+# coin = "dogeusd"
+coin = "ethusd"
 stream = "/ws/" + coin + "@kline_" + interval
 socket = "wss://stream.binance.us:9443" + stream
 

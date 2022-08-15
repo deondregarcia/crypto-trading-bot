@@ -19,7 +19,6 @@ def exponential_moving_average(array, periods):
     elif len(array) == periods:  # base case
         return np.mean(array)
     else:
-        print("ema test")
         wm = 2 / (periods + 1)  # calc weighted multiplier
         price_today = array[-1]
         new_array = array[:-1]
@@ -64,10 +63,9 @@ def MACD(array, fast_periods, slow_periods, macd_periods):
                 MACD_loop(array[: -(1 * i)], fast_periods, slow_periods)
             )  # array[:-(1 * i)] consecutively returns array after slicing off last element
 
-        print(f"macd_array: {macd_array}")
-
+        # print(f"macd_array: {macd_array}")
         signal_line = exponential_moving_average(macd_array, macd_periods)
-        return [f"macd: {macd}", f"signal line: {signal_line}"]
+        return [macd_array, signal_line]
 
 
 def bollinger_bands(array, periods):
@@ -85,6 +83,33 @@ def bollinger_bands(array, periods):
         lower_band = sma - (std_dev * 2)
 
         return [upper_band, sma, lower_band]
+
+
+def double_bollinger_bands(array, periods, first_std_dev, second_std_dev):
+    """
+    returns two standard deviaiton bands below and above sma
+    (first/second)_std_dev could be 1 and 3 for example
+    typically used with a 20 day SMA
+    """
+    if len(array) < periods:
+        print(f"Need {periods} for Bollinger Bands")
+        return
+    else:
+        sma = simple_moving_average(array, periods)
+        std_dev = np.std(array)
+        first = std_dev * first_std_dev
+        second = std_dev * second_std_dev
+        first_upper_band = sma + first
+        second_upper_band = sma + second
+        first_lower_band = sma - first
+        second_lower_band = sma - second
+
+        return [
+            second_upper_band,
+            first_upper_band,
+            first_lower_band,
+            second_lower_band,
+        ]
 
 
 def relative_strength_index(array, periods):
