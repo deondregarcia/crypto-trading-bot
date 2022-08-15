@@ -101,7 +101,7 @@ function App() {
 
   return (
     <div>
-      <h1>API Testing</h1>
+      <h1>Cryptocurrency Trading Bot</h1>
       <body></body>
       <button id="send-button" onClick={handleSend}>
         Post to Python

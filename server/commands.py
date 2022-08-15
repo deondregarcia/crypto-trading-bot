@@ -23,11 +23,11 @@ def get_signature(data, secret):
     return mac
 
 
-def post_request(uri_path, data, api_key, api_sec):
+def post_request(uri_path, data):
     """Attaches auth headers and returns results of a POST request"""
     headers = {}
-    headers["X-MBX-APIKEY"] = api_key
-    signature = get_signature(data, api_sec)
+    headers["X-MBX-APIKEY"] = config.api_key
+    signature = get_signature(data, config.api_secret)
     payload = {
         **data,
         "signature": signature,
@@ -36,11 +36,11 @@ def post_request(uri_path, data, api_key, api_sec):
     return req.text  # signed post request
 
 
-def get_request(uri_path, data, api_key, api_sec):
+def get_request(uri_path, data):
     """Attaches auth headers and returns results of a POST request"""
     headers = {}
-    headers["X-MBX-APIKEY"] = api_key
-    signature = get_signature(data, api_sec)
+    headers["X-MBX-APIKEY"] = config.api_key
+    signature = get_signature(data, config.api_secret)
     params = {
         **data,
         "signature": signature,
@@ -71,10 +71,57 @@ def get_account_info():
             round(time.time() * 1000) - 1000
         ),  # subtract 1000 because timestamp is 1000ms ahead of binance servers; remove " - 1000" if further problems
     }
-    result = get_request(uri_path, data, config.api_key, config.api_secret)
+    result = get_request(uri_path, data)
     return result
     # pprint.pprint(json.loads(result))
 
+
+# implement method of finding quantity amounts for a specific crypto based on percentage of total USD balance
+#   - i.e. with my balance of $100, i can spend 20% on one order if i buy x quantity of doge coin
+def buy_market(symbol, quantity):
+    """Executes a MARKET-type buy order"""
+    uri_path = "/api/v3/order"
+    data = {
+        "symbol": symbol,
+        "side": "BUY",
+        "type": "MARKET",
+        "quantity": quantity,
+        "timestamp": int(round(time.time() * 1000) - 1000),
+    }
+    order = post_request(uri_path, data)
+    print(order)
+
+
+# implement a way to automatically find total quantity in order to execute a complete exit
+def sell_market(symbol, quantity):
+    """Executes a MARKET-type sell order"""
+    uri_path = "/api/v3/order"
+    data = {
+        "symbol": symbol,
+        "side": "SELL",
+        "type": "MARKET",
+        "quantity": quantity,
+        "timestamp": int(round(time.time() * 1000) - 1000),
+    }
+    order = post_request(uri_path, data)
+    print(order)
+
+
+# find a way to automatically calculate stopPrice, e.g. 5% below buy price
+def sell_stop_loss_market(symbol, quantity, stopPrice):
+    """Executes a stop loss, market sell order (as opposed to stop loss, limit sell order)"""
+    uri_path = "/api/v3/order"
+    data = {
+        "symbol": symbol,
+        "side": "SELL",
+        "type": "STOP_LOSS",
+        "quantity": quantity,
+        "stopPrice": stopPrice,
+        "timestamp": int(round(time.time() * 1000) - 1000),
+    }
+
+
+# def sell():
 
 # test_order("DOGEUSD", "BUY", "MARKET", 200)
 # get_account_info()

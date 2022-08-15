@@ -6,7 +6,6 @@ import config, strategies
 api_url = "https://api.binance.us"
 
 # variable values
-
 coin_list = [
     "dogeusd",
     "btcusd",
