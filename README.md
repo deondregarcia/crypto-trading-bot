@@ -1,4 +1,4 @@
-# crypto-trading-bot
+# Python Cryptocurrency Trading Bot
 Automated cryptocurrency trading bot with configurations for different trading strategies.
 
 # Features
