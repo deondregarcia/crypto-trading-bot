@@ -1,12 +1,16 @@
 import logo from "./logo.svg";
 import "./App.css";
 import React, { useState, useEffect } from "react";
+
+// import components
 import CryptoDisplay from "./components/CryptoDisplay/CryptoDisplay";
+import Dropdown from "./components/Dropdown/Dropdown";
 
 function App() {
   const [res, setRes] = useState(null);
   const [balances, setBalances] = useState([]);
   const [botStatus, setBotStatus] = useState(false);
+  const [coinHistory, setCoinHistory] = useState("Select Coin"); // state for Trade History dropdown
 
   const handleStart = () => {
     setBotStatus(true);
@@ -123,7 +127,14 @@ function App() {
         </div>
         <div className="info-box">
           <h2>Trade History</h2>
-          <div className="info-box-content"></div>
+          <div className="info-box-content">
+            <div class="history-dropdown-wrapper">
+              <Dropdown
+                setCoinHistory={setCoinHistory}
+                coinHistory={coinHistory}
+              />
+            </div>
+          </div>
         </div>
         <div className="info-box">
           <h2>Statistics</h2>
@@ -138,9 +149,15 @@ function App() {
           <h1>{botStatus ? "ON" : "OFF"}</h1>
         </div>
         <div className="bot-controls">
-          <button onClick={handleStart}>Start Trading Bot</button>
-          <button onClick={handleStop}>Stop Trading Bot</button>
-          <button onClick={handleAccountInfo}>Get Account Info</button>
+          <button onClick={handleStart} className="btn">
+            Start Trading Bot
+          </button>
+          <button onClick={handleStop} className="btn">
+            Stop Trading Bot
+          </button>
+          <button onClick={handleAccountInfo} className="btn">
+            Get Account Info
+          </button>
         </div>
       </div>
     </div>
