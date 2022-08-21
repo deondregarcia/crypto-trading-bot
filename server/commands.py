@@ -80,12 +80,14 @@ def get_trade_history(symbol):
     """Pulls trade history for a specific coin"""
     uri_path = "/api/v3/myTrades"
     data = {
-        "timestamp": int(round(time.time * 1000) - 1000),
+        "timestamp": int(round(time.time() * 1000) - 1000),
         "symbol": symbol,
     }
     result = get_request(uri_path, data)
     return result
 
+
+print(get_trade_history("DOGEUSD"))
 
 # implement method of finding quantity amounts for a specific crypto based on percentage of total USD balance
 #   - i.e. with my balance of $100, i can spend 20% on one order if i buy x quantity of doge coin
@@ -100,7 +102,7 @@ def buy_market(symbol, quantity):
         "timestamp": int(round(time.time() * 1000) - 1000),
     }
     order = post_request(uri_path, data)
-    print(order)
+    return order
 
 
 # implement a way to automatically find total quantity in order to execute a complete exit
@@ -130,9 +132,3 @@ def sell_stop_loss_market(symbol, quantity, stopPrice):
         "stopPrice": stopPrice,
         "timestamp": int(round(time.time() * 1000) - 1000),
     }
-
-
-# def sell():
-
-# test_order("DOGEUSD", "BUY", "MARKET", 200)
-# get_account_info()

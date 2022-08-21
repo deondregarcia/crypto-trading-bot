@@ -38,6 +38,21 @@ def account_info():
     return result
 
 
+@app.route("/trade-history", methods=["POST"])
+def trade_history():
+    symbol = request.get_json()
+    result = get_trade_history(symbol)
+    return result
+
+
+@app.route("/buy", methods=["POST"])
+def market_buy():
+    data = request.get_json()
+    confirmation = buy_market(data["symbol"], data["quantity"])
+    result = jsonify(confirmation)
+    return result
+
+
 # Run the app:
 if __name__ == "__main__":
     app.run(debug=True)

@@ -5,13 +5,16 @@ import React, { useState, useEffect } from "react";
 // import components
 import CryptoDisplay from "./components/CryptoDisplay/CryptoDisplay";
 import Dropdown from "./components/Dropdown/Dropdown";
+import HistoryDisplay from "./components/HistoryDisplay/HistoryDisplay";
 
 function App() {
   const [res, setRes] = useState(null);
   const [balances, setBalances] = useState([]);
   const [botStatus, setBotStatus] = useState(false);
   const [coinHistory, setCoinHistory] = useState("Select Coin"); // state for Trade History dropdown
+  const [historyDisplay, setHistoryDisplay] = useState(null);
 
+  // start the bot
   const handleStart = () => {
     setBotStatus(true);
     fetch("http://127.0.0.1:5000/start", {
@@ -34,6 +37,7 @@ function App() {
       .catch((error) => console.log(error));
   };
 
+  // stop the bot
   const handleStop = () => {
     setBotStatus(false);
     fetch("http://127.0.0.1:5000/end", {
@@ -74,7 +78,6 @@ function App() {
         }
       })
       .then((response) => {
-        // console.log(response["balances"]);
         const resBalances = response["balances"].map((crypto, index) => crypto);
         const filteredRes = resBalances.filter((item) => {
           if (
@@ -84,34 +87,74 @@ function App() {
           ) {
             return item;
           }
-          // return item.free != 0;
         });
-        // console.log("resBalances: " + resBalances);
-        console.log(filteredRes);
         setBalances(filteredRes);
       })
       .catch((error) => console.log(error));
   };
 
+  const getTradeHistory = async () => {
+    console.log(JSON.stringify(coinHistory));
+    await fetch("http://127.0.0.1:5000/trade-history", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(coinHistory),
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          alert("something is wrong");
+        }
+      })
+      .then((response) => {
+        console.log(response);
+        setHistoryDisplay(response.reverse()); // reverse to display most recent order at the top
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const buyMarket = async () => {
+    console.log(JSON.stringify(coinHistory));
+    await fetch("http://127.0.0.1:5000/buy", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ symbol: "DOGEUSD", quantity: 350 }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          alert("something is wrong");
+        }
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  // run once
   useEffect(() => {
     handleAccountInfo();
-
     return () => {};
   }, []);
 
-  // console.log(balances.map((crypto, index) => crypto.asset));
-
-  // {
-  //   balanceState &&
-  //     balances.map((balance, index) => {
-  //       // <CryptoDisplay crypto={crypto} />;
-  //       console.log(balance[0].asset);
-  //     });
-  // }
-
-  // const crypto = {
-  //   asset: "TEST",
-  // };
+  // run when changing trade history coin
+  useEffect(() => {
+    getTradeHistory();
+    return () => {};
+  }, [coinHistory]);
 
   return (
     <div className="container">
@@ -128,11 +171,20 @@ function App() {
         <div className="info-box">
           <h2>Trade History</h2>
           <div className="info-box-content">
-            <div class="history-dropdown-wrapper">
+            <div className="history-dropdown-wrapper">
               <Dropdown
                 setCoinHistory={setCoinHistory}
                 coinHistory={coinHistory}
               />
+            </div>
+            <div>
+              {historyDisplay ? (
+                historyDisplay.map((order, index) => (
+                  <HistoryDisplay order={order} index={index} />
+                ))
+              ) : (
+                <p>Select Coin</p>
+              )}
             </div>
           </div>
         </div>
@@ -140,6 +192,7 @@ function App() {
           <h2>Statistics</h2>
           <div className="info-box-content">
             <p>Total P&amp;L: 0</p>
+            {/* <button onClick={buyMarket}>Buy Market</button> */}
           </div>
         </div>
       </div>

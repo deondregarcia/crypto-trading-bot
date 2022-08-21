@@ -55,6 +55,7 @@ close_array = []
 
 def on_message(ws, message):
     json_message = json.loads(message)
+    pprint.pprint(json_message)
     candle_info = json_message["k"]
 
     is_candle_closed = candle_info["x"]

@@ -36,12 +36,6 @@
     position: relative;
 }
 
-.history-dropdown-wrapper {
-    background-color: blue;
-    position: absolute;
-    right: 0px;
-}
-
 .bot-info {
     display: flex;
     justify-self: center;

@@ -35,7 +35,6 @@ const Dropdown = (props) => {
         {props.coinHistory}
       </button>
       {listState && <DropdownList />}
-      <p>Test</p>
     </div>
   );
 };
