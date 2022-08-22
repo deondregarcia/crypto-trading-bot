@@ -67,9 +67,8 @@ def get_account_info():
     """Pulls balances and statuses for account"""
     uri_path = "/api/v3/account"
     data = {
-        "timestamp": int(
-            round(time.time() * 1000) - 1000
-        ),  # subtract 1000 because timestamp is 1000ms ahead of binance servers; remove " - 1000" if further problems
+        "timestamp": int(round(time.time() * 1000) - 1000)
+        - 1000,  # subtract 1000 because timestamp is 1000ms ahead of binance servers; remove " - 1000" if further problems
     }
     result = get_request(uri_path, data)
     return result
@@ -80,7 +79,7 @@ def get_trade_history(symbol):
     """Pulls trade history for a specific coin"""
     uri_path = "/api/v3/myTrades"
     data = {
-        "timestamp": int(round(time.time() * 1000) - 1000),
+        "timestamp": int(round(time.time() * 1000) - 1000) - 1000,
         "symbol": symbol,
     }
     result = get_request(uri_path, data)
