@@ -1,84 +1,87 @@
+.container {
+  margin-bottom: 50px;
+}
+
 .title {
-    text-align: center;
-    /* padding-top: 20px;
+  text-align: center;
+  /* padding-top: 20px;
     padding-bottom: 40px; */
-    margin-top: 20px;
-    margin-bottom: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .info-boxes-container {
-    display: flex;
-    justify-content: space-around;
-    /* background-color: green; */
+  display: flex;
+  justify-content: space-around;
+  /* background-color: green; */
 }
 
 .info-box {
-    /* background-color: red; */
-    /* height: 200px; */
-    width: auto;
-    justify-content: center;
+  /* background-color: red; */
+  /* height: 200px; */
+  width: auto;
+  justify-content: center;
 }
 
 .info-box > h2 {
-    text-align: center;
-    margin-bottom: 10px;
-    text-decoration: underline;
+  text-align: center;
+  margin-bottom: 10px;
+  text-decoration: underline;
 }
 
 .info-box-content {
-    background-color: white;
-    height: 500px;
-    width: 30vw;
-    border-radius: 10px;
-    box-shadow: 0px 5px 15px lightgray;
-    overflow-y: auto;
-    padding: 20px;
-    position: relative;
+  background-color: white;
+  height: 500px;
+  width: 30vw;
+  border-radius: 10px;
+  box-shadow: 0px 5px 15px lightgray;
+  overflow-y: auto;
+  padding: 20px;
+  position: relative;
 }
 
 .bot-info {
-    display: flex;
-    justify-self: center;
-    justify-content: center;
-    background-color: white;
-    margin-top: 50px;
-    margin-right: auto;
-    margin-left: auto;
-    width: 80%;
-    height: 250px;
-    border-radius: 10px;
-    box-shadow: 0px 5px 15px lightgray;
+  display: flex;
+  justify-self: center;
+  justify-content: center;
+  background-color: white;
+  margin-top: 50px;
+  margin-right: auto;
+  margin-left: auto;
+  width: 80%;
+  height: 250px;
+  border-radius: 10px;
+  box-shadow: 0px 5px 15px lightgray;
 }
 
 .bot-status {
-    display: flex;
-    flex-direction: column;
-    /* width: 30%; */
-    height: 100%;
-    padding-top: 20px;
-    margin-right: 100px;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  /* width: 30%; */
+  height: 100%;
+  padding-top: 20px;
+  margin-right: 100px;
+  justify-content: center;
+  align-items: center;
 }
 
 .bot-controls {
-    /* background-color: aqua; */
-    display: flex;
-    /* width: 70%; */
-    justify-content: center;
-    align-items: center;
+  /* background-color: aqua; */
+  display: flex;
+  /* width: 70%; */
+  justify-content: center;
+  align-items: center;
 }
 
 .bot-controls > button {
-    margin: 0 20px;
-    /* padding: 20px; */
-    width: 150px;
-    height: 50px;
-    border-radius: 5px;
-    background-color: goldenrod;
+  margin: 0 20px;
+  /* padding: 20px; */
+  width: 150px;
+  height: 50px;
+  border-radius: 5px;
+  background-color: goldenrod;
 }
 
 .btn:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
-

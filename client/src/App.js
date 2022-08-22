@@ -147,6 +147,7 @@ function App() {
   // run once
   useEffect(() => {
     handleAccountInfo();
+
     return () => {};
   }, []);
 

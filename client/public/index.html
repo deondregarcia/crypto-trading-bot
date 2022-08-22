@@ -29,6 +29,31 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    <!-- TradingView Widget BEGIN -->
+    <div class="tradingview-widget-container">
+      <div id="tradingview_ea622"></div>
+      <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/BTCUSD/?exchange=BINANCE" rel="noopener" target="_blank"><span class="blue-text">BTCUSD Chart</span></a> by TradingView</div>
+      <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+      <script type="text/javascript">
+      new TradingView.widget(
+      {
+      "width": 980,
+      "height": 610,
+      "symbol": "BINANCE:BTCUSD",
+      "interval": "D",
+      "timezone": "America/Los_Angeles",
+      "theme": "dark",
+      "style": "1",
+      "locale": "en",
+      "toolbar_bg": "#f1f3f6",
+      "enable_publishing": false,
+      "allow_symbol_change": true,
+      "container_id": "tradingview_ea622"
+    }
+      );
+      </script>
+    </div>
+    <!-- TradingView Widget END -->
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

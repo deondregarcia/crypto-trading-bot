@@ -1,4 +1,5 @@
 # hold all the strategies and Crypto class
+from numpy import isin
 from indicators import *
 from test_arrays import *
 
@@ -55,17 +56,23 @@ def DBB_signal(array, periods, first_std_dev, second_std_dev):
 
 
 def RSI_signal(array, periods):
-    """Returns BUY signal when above 70, SELL when below 30"""
+    """
+    Returns BUY signal when above 70, SELL when below 30
+    Standard # of periods is 14
+    """
     # RSI measures speed and magnitude of recent price changes
     # best for trading ranges rather than markets
     rsi = relative_strength_index(array, periods)
-
+    # print(isinstance(rsi, str))
+    if isinstance(rsi, str):
+        print("string test worked")
+        return rsi
     if rsi > 70:
         return "SELL"
     elif rsi < 30:
         return "BUY"
     else:
-        return
+        return "No RSI Signal"
 
 
 def MACD_signal(array, fast_periods, slow_periods, macd_periods):

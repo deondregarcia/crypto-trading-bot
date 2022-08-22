@@ -6,7 +6,7 @@ const Dropdown = (props) => {
 
   const DropdownList = () => {
     return (
-      <div className="dropdown-list">
+      <div className="dropdown-list" onClick={() => setListState(!listState)}>
         <div
           className="dropdown-list-btn"
           onClick={() => props.setCoinHistory("BTCUSD")}

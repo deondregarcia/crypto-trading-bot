@@ -1,33 +1,37 @@
+.box:hover {
+  cursor: pointer;
+}
+
 .dropdown-btn {
-    width: 200px;
-    height: 30px;
+  width: 200px;
+  height: 30px;
 }
 
 .dropdown-btn:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .dropdown-list {
-    width: 200px;
-    position: absolute;
-    z-index: 5;
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    border: 1px solid black;
-    border-bottom: 1px transparent;
-    border-top: 1px transparent;
+  width: 200px;
+  position: absolute;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: 1px solid black;
+  border-bottom: 1px transparent;
+  border-top: 1px transparent;
 }
 
 .dropdown-list-btn {
-    align-items: center;
-    width: 200px;
-    height: 20px;
-    border-bottom: 1px solid gray;
-    /* border: 1px solid black; */
+  align-items: center;
+  width: 200px;
+  height: 20px;
+  border-bottom: 1px solid gray;
+  /* border: 1px solid black; */
 }
 
 .dropdown-list-btn:hover {
-    background-color: lightgray;
-    cursor: pointer;
+  background-color: lightgray;
+  cursor: pointer;
 }

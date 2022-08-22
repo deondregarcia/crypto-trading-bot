@@ -14,8 +14,8 @@ def simple_moving_average(array, periods):
 def exponential_moving_average(array, periods):
     """moving average with more weight on recent data"""
     if len(array) < periods:
-        print("Must have periods + 1 number of inputs for EMA")
-        return
+        return "Must have periods + 1 number of inputs for EMA"
+
     elif len(array) == periods:  # base case
         return np.mean(array)
     else:
@@ -31,9 +31,12 @@ def exponential_moving_average(array, periods):
 def smoothed_moving_average(array, periods):
     """similar to EMA with different weighted multiplier; moving average with alpha = 1/N smoothing"""
     if len(array) < periods:
-        print("Must have periods + 1 number of inputs for EMA")
-        return
+        return "Must have periods + 1 number of inputs for SMMA"
     elif len(array) == periods:  # base case
+        # mean_array = []
+        # for i in range(periods):
+        #     mean_array.append(array[-1 * (i + 1)])
+        # return np.mean(mean_array)
         return np.mean(array)
     else:
         wm = 1 / (periods)  # calc weighted multiplier
@@ -118,8 +121,8 @@ def relative_strength_index(array, periods):
     This RSI uses Wilder's SMMA for its smoothing alpha
     """
     if len(array) < periods:
-        print(f"Need at least {periods} closes for RSI")
-        return
+        return f"Need at least {periods} + 1 closes for RSI"
+
     else:
         gains = []
         losses = []
@@ -137,8 +140,16 @@ def relative_strength_index(array, periods):
         # calculate the SMMA only for the 'periods' amount
         avg_gains = smoothed_moving_average(gains, periods)
         avg_losses = smoothed_moving_average(losses, periods)
-        relative_strength = avg_gains / avg_losses
+
+        # check if strings
+        if isinstance(avg_gains, str) or isinstance(avg_losses, str):
+            return avg_gains
+        if avg_losses == 0:
+            relative_strength = 0
+        else:
+            relative_strength = avg_gains / avg_losses
         rsi = 100 - (100 / (1 + relative_strength))
+        print(f"rsi: {rsi} ")
         return rsi
 
 
